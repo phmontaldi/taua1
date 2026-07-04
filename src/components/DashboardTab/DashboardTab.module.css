@@ -1,0 +1,254 @@
+.tab {
+  padding: 12px;
+}
+
+.hero {
+  background: var(--color-green);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 12px;
+  text-align: center;
+  border: 2px solid var(--color-gold);
+}
+
+.heroIcon {
+  font-size: 36px;
+  margin-bottom: 4px;
+}
+
+.heroLabel {
+  font-size: 21px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.heroMeta {
+  font-size: 12px;
+  color: var(--color-mint);
+  margin-top: 4px;
+}
+
+.metricsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.metricCard {
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+.metricLabel {
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.metricSub {
+  font-size: 10px;
+  color: #999;
+  margin-top: 6px;
+}
+
+.metricValue {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.metricValueBold {
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.card {
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid var(--color-border);
+}
+
+.cardTitle {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-green);
+  margin-bottom: 10px;
+}
+
+.cardHeadRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.critCount {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.critBarTrack {
+  background: #e0e0e0;
+  border-radius: 5px;
+  height: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.critBarFill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s;
+}
+
+.critAllDone {
+  text-align: center;
+  padding: 10px 0;
+  color: var(--color-green);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.critPendingLabel {
+  font-size: 11px;
+  color: #cc6600;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.critPendingItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 7px 10px;
+  margin-bottom: 4px;
+  border-radius: 7px;
+  background: #fff8ed;
+  border: 1.5px solid #ffd580;
+  cursor: pointer;
+}
+
+.critPendingBox {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 2px solid #c8a84b;
+  flex-shrink: 0;
+}
+
+.critPendingLabelText {
+  font-size: 12px;
+  color: #7d5a00;
+}
+
+.breakdownRow {
+  margin-bottom: 7px;
+}
+
+.breakdownHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.breakdownLabel {
+  color: var(--color-green);
+}
+
+.breakdownCount {
+  font-weight: 700;
+}
+
+.breakdownBarTrack {
+  background: #e8e8e8;
+  border-radius: 3px;
+  height: 5px;
+  overflow: hidden;
+}
+
+.breakdownBarFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.auditBreakdownSection {
+  margin-bottom: 10px;
+}
+
+.auditSectionLabel {
+  color: var(--color-green);
+  font-weight: 600;
+  font-size: 11.5px;
+}
+
+.auditSectionScore {
+  font-weight: 800;
+  font-size: 11.5px;
+}
+
+.auditSectionPct {
+  font-weight: 400;
+  color: #bbb;
+}
+
+.auditSectionBarTrack {
+  background: #e8e8e8;
+  border-radius: 4px;
+  height: 7px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.auditSectionBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.auditItemRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+  padding-left: 8px;
+}
+
+.auditItemLabel {
+  font-size: 10px;
+  color: #888;
+  flex: 1;
+}
+
+.auditItemBarTrack {
+  background: #e0e0e0;
+  border-radius: 3px;
+  height: 4px;
+  width: 60px;
+  overflow: hidden;
+}
+
+.auditItemBarFill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.auditItemScore {
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: right;
+}

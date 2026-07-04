@@ -1,0 +1,8 @@
+.app {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--color-cream);
+  min-height: 100vh;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-bottom: 72px;
+}

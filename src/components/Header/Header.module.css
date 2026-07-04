@@ -1,0 +1,90 @@
+.header {
+  background: var(--color-green);
+  padding: 14px 16px 10px;
+  border-bottom: 3px solid var(--color-gold);
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.brand {
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 5px;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.brandSub {
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  color: var(--color-mint);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.titleBlock {
+  text-align: right;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 10px;
+  color: var(--color-mint);
+  margin-top: 1px;
+}
+
+.metaRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fieldLabel {
+  font-size: 9px;
+  color: var(--color-mint);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.input {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  color: #fff;
+  padding: 3px 7px;
+  font-size: 11px;
+  outline: none;
+}
+
+.inputWide {
+  padding: 3px 8px;
+  width: 120px;
+}
+
+.statusBadge {
+  margin-left: auto;
+  border: 1.5px solid;
+  border-radius: 14px;
+  padding: 4px 11px;
+  font-size: 11px;
+  font-weight: 700;
+}

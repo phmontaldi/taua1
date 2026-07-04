@@ -1,0 +1,243 @@
+.tab {
+  padding: 12px;
+}
+
+.hero {
+  background: var(--color-green);
+  border-radius: 12px;
+  padding: 18px 16px;
+  margin-bottom: 12px;
+  border: 2px solid var(--color-gold);
+  text-align: center;
+}
+
+.heroLabel {
+  font-size: 10px;
+  color: var(--color-mint);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.heroValue {
+  font-size: 52px;
+  font-weight: 900;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.heroSub {
+  font-size: 11px;
+  color: var(--color-mint);
+  margin-top: 2px;
+}
+
+.heroBadge {
+  display: inline-block;
+  margin-top: 10px;
+  border: 1.5px solid;
+  border-radius: 16px;
+  padding: 5px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.section {
+  background: var(--color-white);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.sectionHeader {
+  background: var(--color-green);
+  padding: 9px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+}
+
+.sectionScore {
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--color-gold);
+}
+
+.sectionScorePct {
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--color-mint);
+}
+
+.sectionBarTrack {
+  height: 4px;
+  background: #ddd;
+}
+
+.sectionBarFill {
+  height: 100%;
+  transition: width 0.3s;
+}
+
+.item {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.itemHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemLabel {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--color-green);
+  margin-bottom: 2px;
+}
+
+.itemDesc {
+  font-size: 10.5px;
+  color: #888;
+  line-height: 1.4;
+}
+
+.itemScore {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.itemScoreValue {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.itemScoreMax {
+  font-size: 9px;
+  color: #bbb;
+}
+
+.itemBarTrack {
+  background: #eee;
+  border-radius: 4px;
+  height: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.itemBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.2s;
+}
+
+.controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.quickButton {
+  padding: 6px 0;
+  min-width: 44px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 2px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-green);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.quickButtonActive {
+  border-color: var(--color-green);
+  background: var(--color-green);
+  color: #fff;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stepButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-green);
+  font-weight: 900;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.stepInput {
+  width: 44px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--color-green);
+  border: 1.5px solid var(--color-mint);
+  border-radius: 6px;
+  padding: 4px 0;
+  outline: none;
+}
+
+.scaleCard {
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+}
+
+.scaleTitle {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--color-green);
+  margin-bottom: 8px;
+}
+
+.scaleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 9px;
+  margin-bottom: 3px;
+  border-radius: 7px;
+  border: 1.5px solid transparent;
+}
+
+.scaleLabel {
+  font-size: 11px;
+}
+
+.scaleRange {
+  font-size: 10px;
+  color: #999;
+}

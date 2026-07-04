@@ -1,0 +1,24 @@
+:root {
+  --color-green: #003d32;
+  --color-gold: #c8a84b;
+  --color-amber: #fe9900;
+  --color-cream: #f5f0e6;
+  --color-mint: #8abfb3;
+  --color-light-green: #e4edea;
+  --color-border: #c8ddd8;
+  --color-white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--color-cream);
+}
+
+button {
+  font-family: inherit;
+}
