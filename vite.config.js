@@ -15,6 +15,7 @@ export default defineConfig({
         name: "Tauá Bar",
         short_name: "Tauá Bar",
         description: "Conferência diária do bar Tauá.",
+        lang: "pt-BR",
         start_url: "/",
         display: "standalone",
         background_color: "#f5f0e6",
