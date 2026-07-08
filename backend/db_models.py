@@ -114,3 +114,19 @@ class TurnoAuditoria(Base):
     # pct é coluna GENERATED ALWAYS AS no banco (ver migration) — omitida do ORM
 
     turno: Mapped["Turno"] = relationship(back_populates="auditoria")
+
+
+class Lider(Base):
+    __tablename__ = "lider"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    nome: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    pin_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    ativo: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True, server_default=text("TRUE")
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=text("NOW()")
+    )

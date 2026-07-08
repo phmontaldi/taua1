@@ -7,7 +7,7 @@ load_dotenv()
 
 class Settings:
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
-    API_KEY: str = os.getenv("API_KEY", "")
+    JWT_SECRET: str = os.getenv("JWT_SECRET", "")
     CORS_ORIGINS: list[str] = [
         origin.strip()
         for origin in os.getenv("CORS_ORIGINS", "").split(",")

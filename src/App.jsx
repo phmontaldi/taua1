@@ -2,6 +2,8 @@ import { useState } from "react";
 import { SECTIONS } from "./data/checklistData.js";
 import { useLocalStorage, clearLocalStorageKeys } from "./hooks/useLocalStorage.js";
 import { useBarMetrics } from "./hooks/useBarMetrics.js";
+import { useAuth } from "./hooks/useAuth.js";
+import Login from "./components/Login/Login.jsx";
 import Header from "./components/Header/Header.jsx";
 import Tabs from "./components/Tabs/Tabs.jsx";
 import ChecklistTab from "./components/ChecklistTab/ChecklistTab.jsx";
@@ -23,11 +25,11 @@ const todayLocal = () =>
 const defaultOpenSections = () => Object.fromEntries(SECTIONS.map((s) => [s.id, true]));
 
 export default function App() {
+  const { auth, login, logout } = useAuth();
   const [tab, setTab] = useState("check");
   const [checked, setChecked] = useLocalStorage("checked", {});
   const [scores, setScores] = useLocalStorage("scores", {});
-  const [emocionador, setEmocionador] = useLocalStorage("emocionador", "");
-  const [bar, setBar] = useLocalStorage("bar", "piscina");
+  const [bar, setBar] = useLocalStorage("bar", "");
   const [date, setDate] = useState(todayLocal());
   const [open, setOpen] = useLocalStorage("open", defaultOpenSections());
 
@@ -43,11 +45,15 @@ export default function App() {
     clearLocalStorageKeys(["checked", "scores"]);
   };
 
+  if (!auth) {
+    return <Login onLogin={login} />;
+  }
+
   return (
     <div className={styles.app}>
       <Header
         date={date} onDateChange={setDate}
-        emocionador={emocionador} onEmocionadorChange={setEmocionador}
+        emocionador={auth.nome} onLogout={logout}
         bar={bar} onBarChange={setBar}
         status={metrics.status}
       />
@@ -76,12 +82,13 @@ export default function App() {
 
       {tab === "dash" && (
         <DashboardTab
-          checked={checked} scores={scores} date={date} emocionador={emocionador}
+          checked={checked} scores={scores} date={date} emocionador={auth.nome} bar={bar}
           done={metrics.done} total={metrics.total} pct={metrics.pct}
           auditTotal={metrics.auditTotal} auditPct={metrics.auditPct} classification={metrics.classification}
           status={metrics.status}
           critItems={metrics.critItems} critDone={metrics.critDone} critPct={metrics.critPct} missing={metrics.missing}
           onToggleItem={toggleItem}
+          token={auth.token} onAuthError={logout}
         />
       )}
 

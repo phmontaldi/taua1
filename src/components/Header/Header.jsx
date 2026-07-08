@@ -5,7 +5,7 @@ const BARS = [
   { value: "sport_bar", label: "Sport Bar" },
 ];
 
-export default function Header({ date, onDateChange, emocionador, onEmocionadorChange, bar, onBarChange, status }) {
+export default function Header({ date, onDateChange, emocionador, onLogout, bar, onBarChange, status }) {
   return (
     <div className={styles.header}>
       <div className={styles.topRow}>
@@ -25,6 +25,7 @@ export default function Header({ date, onDateChange, emocionador, onEmocionadorC
           <select
             required value={bar} onChange={(e) => onBarChange(e.target.value)} className={styles.input}
           >
+            <option value="" disabled>Selecione o bar</option>
             {BARS.map((b) => (
               <option key={b.value} value={b.value}>{b.label}</option>
             ))}
@@ -36,10 +37,8 @@ export default function Header({ date, onDateChange, emocionador, onEmocionadorC
         </div>
         <div className={styles.field}>
           <span className={styles.fieldLabel}>Emocionador</span>
-          <input
-            type="text" value={emocionador} onChange={(e) => onEmocionadorChange(e.target.value)}
-            placeholder="Nome..." className={`${styles.input} ${styles.inputWide}`}
-          />
+          <span className={styles.emocionadorValue}>{emocionador}</span>
+          <button type="button" onClick={onLogout} className={styles.logoutBtn}>Sair</button>
         </div>
         <div className={styles.statusBadge} style={{ background: status.bg, color: status.color, borderColor: status.color }}>
           {status.icon} {status.label}
