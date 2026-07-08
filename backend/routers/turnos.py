@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from auth import LiderAtual, get_current_lider
 from database import get_db
 from models import TurnoCreate, TurnoListResponse, TurnoResponse
 from services.scoring import (
@@ -20,7 +21,13 @@ router = APIRouter(prefix="/api/v1/turnos", tags=["turnos"])
 
 
 @router.post("", response_model=TurnoResponse, status_code=status.HTTP_201_CREATED)
-async def criar_turno_endpoint(payload: TurnoCreate, db: AsyncSession = Depends(get_db)):
+async def criar_turno_endpoint(
+    payload: TurnoCreate,
+    db: AsyncSession = Depends(get_db),
+    lider: LiderAtual = Depends(get_current_lider),
+):
+    payload = payload.model_copy(update={"emocionador": lider.nome})
+
     checklist_metrics = compute_checklist_metrics(payload.checklist)
     auditoria_metrics = compute_auditoria_metrics(payload.auditoria)
 

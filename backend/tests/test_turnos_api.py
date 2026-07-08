@@ -3,6 +3,7 @@ from copy import deepcopy
 import pytest
 from fastapi import status
 
+from conftest import TEST_LIDER_NOME
 from models import AuditoriaItem, AuditoriaPayload, ChecklistItem, ChecklistPayload
 from services.scoring import compute_auditoria_metrics, compute_checklist_metrics
 
@@ -134,6 +135,16 @@ async def test_post_turno_feliz(client, auth_headers):
     assert body["audit_classification"] == payload["auditoria"]["classification"]
 
 
+async def test_post_turno_ignora_emocionador_do_payload_e_usa_o_do_token(client, auth_headers):
+    payload = _montar_payload(date="2025-01-19")
+    payload["emocionador"] = "Nome Forjado No Payload"
+
+    response = await client.post("/api/v1/turnos", json=payload, headers=auth_headers)
+
+    assert response.status_code == status.HTTP_201_CREATED
+    assert response.json()["emocionador"] == TEST_LIDER_NOME
+
+
 @pytest.mark.parametrize(
     "campo, novo_valor",
     [
@@ -173,19 +184,21 @@ async def test_post_turno_duplicata_retorna_409_com_turno_existente(client, auth
     assert body["turno"]["bar"] == payload["bar"]
 
 
-async def test_get_turnos_sem_api_key_retorna_401(client):
+async def test_get_turnos_sem_token_retorna_401(client):
     response = await client.get("/api/v1/turnos")
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-async def test_post_turno_sem_api_key_retorna_401(client):
+async def test_post_turno_sem_token_retorna_401(client):
     payload = _montar_payload(date="2025-01-18")
     response = await client.post("/api/v1/turnos", json=payload)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-async def test_api_key_invalida_retorna_401(client):
-    response = await client.get("/api/v1/turnos", headers={"X-API-Key": "chave-errada"})
+async def test_token_invalido_retorna_401(client):
+    response = await client.get(
+        "/api/v1/turnos", headers={"Authorization": "Bearer token-invalido"}
+    )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 

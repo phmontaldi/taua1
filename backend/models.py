@@ -110,3 +110,15 @@ class TurnoListResponse(BaseModel):
     page: int
     page_size: int
     pages: int
+
+
+class LoginRequest(BaseModel):
+    nome: str
+    pin: str
+
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    nome: str
+    expires_at: datetime
