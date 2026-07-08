@@ -278,6 +278,14 @@
   font-size: 13px;
 }
 
+.submitQueued {
+  text-align: center;
+  padding: 10px 0;
+  color: var(--color-amber);
+  font-weight: 700;
+  font-size: 13px;
+}
+
 .submitError {
   background: #fde0e0;
   color: #b22222;

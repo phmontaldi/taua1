@@ -10,7 +10,7 @@ export default function DashboardTab({
   checked, scores, date, emocionador, bar,
   done, total, pct, auditTotal, auditPct, classification, status,
   critItems, critDone, critPct, missing, onToggleItem,
-  token, onAuthError,
+  token, onAuthError, onQueueOffline,
 }) {
   return (
     <div className={styles.tab}>
@@ -22,6 +22,7 @@ export default function DashboardTab({
       <SubmitTurno
         checked={checked} scores={scores} date={date} bar={bar} emocionador={emocionador}
         statusLabel={status.label} missing={missing} token={token} onAuthError={onAuthError}
+        onQueueOffline={onQueueOffline}
       />
     </div>
   );
