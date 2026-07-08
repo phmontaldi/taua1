@@ -13,6 +13,7 @@ from sqlalchemy import (
     Numeric,
     SmallInteger,
     String,
+    UniqueConstraint,
     text,
 )
 from sqlalchemy.dialects.postgresql import UUID
@@ -25,6 +26,7 @@ class Turno(Base):
     __tablename__ = "turno"
     __table_args__ = (
         CheckConstraint("bar IN ('piscina', 'sport_bar')", name="turno_bar_check"),
+        UniqueConstraint("date", "bar", name="turno_date_bar_key"),
         Index("idx_turno_date", "date"),
         Index("idx_turno_bar", "bar"),
         Index("idx_turno_date_bar", "date", "bar"),
