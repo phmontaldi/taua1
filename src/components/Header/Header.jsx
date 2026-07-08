@@ -1,6 +1,11 @@
 import styles from "./Header.module.css";
 
-export default function Header({ date, onDateChange, emocionador, onEmocionadorChange, status }) {
+const BARS = [
+  { value: "piscina", label: "Bar da Piscina" },
+  { value: "sport_bar", label: "Sport Bar" },
+];
+
+export default function Header({ date, onDateChange, emocionador, onEmocionadorChange, bar, onBarChange, status }) {
   return (
     <div className={styles.header}>
       <div className={styles.topRow}>
@@ -15,6 +20,16 @@ export default function Header({ date, onDateChange, emocionador, onEmocionadorC
       </div>
 
       <div className={styles.metaRow}>
+        <div className={styles.field}>
+          <span className={styles.fieldLabel}>Bar</span>
+          <select
+            required value={bar} onChange={(e) => onBarChange(e.target.value)} className={styles.input}
+          >
+            {BARS.map((b) => (
+              <option key={b.value} value={b.value}>{b.label}</option>
+            ))}
+          </select>
+        </div>
         <div className={styles.field}>
           <span className={styles.fieldLabel}>Data</span>
           <input type="date" value={date} onChange={(e) => onDateChange(e.target.value)} className={styles.input} />

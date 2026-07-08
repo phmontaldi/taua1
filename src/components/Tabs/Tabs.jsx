@@ -1,3 +1,4 @@
+import { AUDIT } from "../../data/auditData.js";
 import styles from "./Tabs.module.css";
 
 const TABS = [
@@ -6,8 +7,10 @@ const TABS = [
   { id: "dash", label: "📊 Dashboard" },
 ];
 
-export default function Tabs({ active, onChange, checklistBadge, auditBadge }) {
-  const badges = { check: checklistBadge, audit: auditBadge, dash: null };
+const AUDIT_MAX = AUDIT.reduce((sum, s) => sum + s.max, 0);
+
+export default function Tabs({ active, onChange, checklistBadge, auditTotal }) {
+  const badges = { check: checklistBadge, audit: `${auditTotal}/${AUDIT_MAX}`, dash: null };
 
   return (
     <div className={styles.tabs}>

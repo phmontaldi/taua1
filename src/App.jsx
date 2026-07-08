@@ -10,7 +10,16 @@ import DashboardTab from "./components/DashboardTab/DashboardTab.jsx";
 import StatusBar from "./components/StatusBar/StatusBar.jsx";
 import styles from "./App.module.css";
 
-const todayISO = () => new Date().toISOString().split("T")[0];
+const DEVICE_TIMEZONE = "America/Fortaleza";
+
+const todayLocal = () =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: DEVICE_TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+
 const defaultOpenSections = () => Object.fromEntries(SECTIONS.map((s) => [s.id, true]));
 
 export default function App() {
@@ -18,7 +27,8 @@ export default function App() {
   const [checked, setChecked] = useLocalStorage("checked", {});
   const [scores, setScores] = useLocalStorage("scores", {});
   const [emocionador, setEmocionador] = useLocalStorage("emocionador", "");
-  const [date, setDate] = useLocalStorage("date", todayISO());
+  const [bar, setBar] = useLocalStorage("bar", "piscina");
+  const [date, setDate] = useState(todayLocal());
   const [open, setOpen] = useLocalStorage("open", defaultOpenSections());
 
   const metrics = useBarMetrics(checked, scores);
@@ -38,13 +48,14 @@ export default function App() {
       <Header
         date={date} onDateChange={setDate}
         emocionador={emocionador} onEmocionadorChange={setEmocionador}
+        bar={bar} onBarChange={setBar}
         status={metrics.status}
       />
 
       <Tabs
         active={tab} onChange={setTab}
         checklistBadge={`${metrics.done}/${metrics.total}`}
-        auditBadge={`${metrics.auditTotal}/200`}
+        auditTotal={metrics.auditTotal}
       />
 
       {tab === "check" && (
