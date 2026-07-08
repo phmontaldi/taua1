@@ -15,6 +15,7 @@ export class ApiError extends Error {
 
 export class AuthError extends ApiError {}
 export class DuplicateTurnoError extends ApiError {}
+export class NetworkError extends ApiError {}
 
 // Mesma fórmula do backend: services/scoring.py::_pct -> round(n/d*100, 2)
 function pct(numerator, denominator) {
@@ -118,7 +119,7 @@ async function request(path, { method = "GET", body, token } = {}) {
       body: body !== undefined ? JSON.stringify(body) : undefined,
     });
   } catch {
-    throw new ApiError("Não foi possível conectar ao servidor. Verifique sua conexão.");
+    throw new NetworkError("Não foi possível conectar ao servidor. Verifique sua conexão.");
   }
 
   let data = null;
@@ -154,6 +155,10 @@ export function login(nome, pin) {
   return request("/api/v1/auth/login", { method: "POST", body: { nome, pin } });
 }
 
+export function submitTurnoPayload(payload, token) {
+  return request("/api/v1/turnos", { method: "POST", body: payload, token });
+}
+
 export function submitTurno(state, token) {
-  return request("/api/v1/turnos", { method: "POST", body: buildTurnoPayload(state), token });
+  return submitTurnoPayload(buildTurnoPayload(state), token);
 }

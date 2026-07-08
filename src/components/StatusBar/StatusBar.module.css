@@ -18,6 +18,11 @@
   color: var(--color-mint);
 }
 
+.pending {
+  color: var(--color-amber);
+  font-weight: 700;
+}
+
 .badge {
   border: 1.5px solid;
   border-radius: 12px;

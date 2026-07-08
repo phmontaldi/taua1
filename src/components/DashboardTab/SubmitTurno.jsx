@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { submitTurno, AuthError, DuplicateTurnoError } from "../../services/api.js";
+import {
+  buildTurnoPayload, submitTurnoPayload, AuthError, DuplicateTurnoError, NetworkError,
+} from "../../services/api.js";
 import styles from "./DashboardTab.module.css";
 
 export default function SubmitTurno({
-  checked, scores, date, bar, emocionador, statusLabel, missing, token, onAuthError,
+  checked, scores, date, bar, emocionador, statusLabel, missing, token, onAuthError, onQueueOffline,
 }) {
-  const [state, setState] = useState("idle"); // idle | loading | success | error
+  const [state, setState] = useState("idle"); // idle | loading | success | queued | error
   const [message, setMessage] = useState("");
 
   const handleSubmit = async () => {
@@ -29,8 +31,9 @@ export default function SubmitTurno({
     }
 
     setState("loading");
+    const payload = buildTurnoPayload({ checked, scores, date, bar, emocionador, statusLabel });
     try {
-      await submitTurno({ checked, scores, date, bar, emocionador, statusLabel }, token);
+      await submitTurnoPayload(payload, token);
       setState("success");
       setMessage("Conferência enviada com sucesso!");
     } catch (err) {
@@ -45,6 +48,12 @@ export default function SubmitTurno({
         setMessage(err.message);
         return;
       }
+      if (err instanceof NetworkError) {
+        await onQueueOffline(payload, token);
+        setState("queued");
+        setMessage("Sem conexão. A conferência foi salva e será enviada automaticamente quando a internet voltar.");
+        return;
+      }
       setState("error");
       setMessage(err.message || "Erro ao enviar a conferência. Tente novamente.");
     }
@@ -56,6 +65,8 @@ export default function SubmitTurno({
 
       {state === "success" ? (
         <div className={styles.submitSuccess}>✅ {message}</div>
+      ) : state === "queued" ? (
+        <div className={styles.submitQueued}>📶 {message}</div>
       ) : (
         <>
           <button

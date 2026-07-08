@@ -3,6 +3,7 @@ import { SECTIONS } from "./data/checklistData.js";
 import { useLocalStorage, clearLocalStorageKeys } from "./hooks/useLocalStorage.js";
 import { useBarMetrics } from "./hooks/useBarMetrics.js";
 import { useAuth } from "./hooks/useAuth.js";
+import { useOfflineQueue } from "./hooks/useOfflineQueue.js";
 import Login from "./components/Login/Login.jsx";
 import Header from "./components/Header/Header.jsx";
 import Tabs from "./components/Tabs/Tabs.jsx";
@@ -34,6 +35,7 @@ export default function App() {
   const [open, setOpen] = useLocalStorage("open", defaultOpenSections());
 
   const metrics = useBarMetrics(checked, scores);
+  const { pendingCount, enqueue } = useOfflineQueue();
 
   const toggleItem = (id) => setChecked((p) => ({ ...p, [id]: !p[id] }));
   const toggleSection = (id) => setOpen((p) => ({ ...p, [id]: !p[id] }));
@@ -89,10 +91,14 @@ export default function App() {
           critItems={metrics.critItems} critDone={metrics.critDone} critPct={metrics.critPct} missing={metrics.missing}
           onToggleItem={toggleItem}
           token={auth.token} onAuthError={logout}
+          onQueueOffline={enqueue}
         />
       )}
 
-      <StatusBar done={metrics.done} total={metrics.total} auditTotal={metrics.auditTotal} status={metrics.status} />
+      <StatusBar
+        done={metrics.done} total={metrics.total} auditTotal={metrics.auditTotal} status={metrics.status}
+        pendingCount={pendingCount}
+      />
     </div>
   );
 }
