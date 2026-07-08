@@ -102,3 +102,11 @@ class TurnoResponse(BaseModel):
     audit_classification: str
     submitted_at: datetime
     created_at: datetime
+
+
+class TurnoListResponse(BaseModel):
+    items: list[TurnoResponse]
+    total: int
+    page: int
+    page_size: int
+    pages: int
