@@ -1,7 +1,6 @@
 import uuid
 from datetime import date as date_
 from datetime import datetime, timezone
-from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
@@ -62,7 +61,9 @@ class AuditoriaPayload(BaseModel):
 
 class TurnoCreate(BaseModel):
     date: date_
-    bar: Literal["piscina", "sport_bar"]
+    # Slug do bar; a validação contra os bares ativos é feita no banco
+    # (services/bar_service.py), pois a lista agora vive na tabela `bar`.
+    bar: str
     emocionador: str
     status: str
     submitted_at: datetime
@@ -85,6 +86,21 @@ class TurnoCreate(BaseModel):
         if value > datetime.now(timezone.utc).date():
             raise ValueError("date não pode ser no futuro")
         return value
+
+    @field_validator("bar")
+    @classmethod
+    def bar_nao_vazio(cls, value: str) -> str:
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("bar não pode ser vazio")
+        return stripped
+
+
+class BarResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    slug: str
+    rotulo: str
 
 
 class TurnoResponse(BaseModel):

@@ -13,7 +13,7 @@ if not settings.DATABASE_URL or not settings.JWT_SECRET:
 from auth import JWTAuthMiddleware  # noqa: E402
 from rate_limit import limiter  # noqa: E402
 from routers import auth as auth_router  # noqa: E402
-from routers import turnos  # noqa: E402
+from routers import bares, turnos  # noqa: E402
 
 app = FastAPI(title="Bar da Piscina · Conferência Diária API", version="0.1.0")
 
@@ -30,6 +30,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router.router)
+app.include_router(bares.router)
 app.include_router(turnos.router)
 
 

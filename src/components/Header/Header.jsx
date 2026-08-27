@@ -1,11 +1,6 @@
 import styles from "./Header.module.css";
 
-const BARS = [
-  { value: "piscina", label: "Bar da Piscina" },
-  { value: "sport_bar", label: "Sport Bar" },
-];
-
-export default function Header({ date, onDateChange, emocionador, onLogout, bar, onBarChange, status }) {
+export default function Header({ date, onDateChange, emocionador, onLogout, bar, onBarChange, bars, status }) {
   return (
     <div className={styles.header}>
       <div className={styles.topRow}>
@@ -26,8 +21,8 @@ export default function Header({ date, onDateChange, emocionador, onLogout, bar,
             required value={bar} onChange={(e) => onBarChange(e.target.value)} className={styles.input}
           >
             <option value="" disabled>Selecione o bar</option>
-            {BARS.map((b) => (
-              <option key={b.value} value={b.value}>{b.label}</option>
+            {bars.map((b) => (
+              <option key={b.slug} value={b.slug}>{b.rotulo}</option>
             ))}
           </select>
         </div>

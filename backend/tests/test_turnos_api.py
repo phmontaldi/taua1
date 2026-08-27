@@ -184,6 +184,66 @@ async def test_post_turno_duplicata_retorna_409_com_turno_existente(client, auth
     assert body["turno"]["bar"] == payload["bar"]
 
 
+async def test_post_turno_bar_novo_aceito(client, auth_headers):
+    payload = _montar_payload(date="2025-01-20", bar="rooftop")
+
+    response = await client.post("/api/v1/turnos", json=payload, headers=auth_headers)
+
+    assert response.status_code == status.HTTP_201_CREATED
+    assert response.json()["bar"] == "rooftop"
+
+
+async def test_post_turno_bar_inexistente_retorna_422(client, auth_headers):
+    payload = _montar_payload(date="2025-01-20", bar="bar_fantasma")
+
+    response = await client.post("/api/v1/turnos", json=payload, headers=auth_headers)
+
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
+    assert response.json()["detail"]["message"] == "Bar 'bar_fantasma' não existe."
+
+
+async def test_post_turno_bar_inativo_retorna_422(client, auth_headers, bar_inativo):
+    payload = _montar_payload(date="2025-01-20", bar=bar_inativo.slug)
+
+    response = await client.post("/api/v1/turnos", json=payload, headers=auth_headers)
+
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
+    assert "inativo" in response.json()["detail"]["message"]
+
+
+async def test_get_bares_sem_token_retorna_401(client):
+    response = await client.get("/api/v1/bares")
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+async def test_get_bares_retorna_apenas_ativos(client, auth_headers, bar_inativo):
+    response = await client.get("/api/v1/bares", headers=auth_headers)
+
+    assert response.status_code == status.HTTP_200_OK
+    bares = response.json()
+    slugs = {b["slug"] for b in bares}
+    assert {
+        "piscina",
+        "sport_bar",
+        "ondas_1",
+        "rooftop",
+        "nigori",
+        "coppolla",
+        "beach_club",
+    } <= slugs
+    assert bar_inativo.slug not in slugs
+    assert all(set(b) == {"slug", "rotulo"} for b in bares)
+
+
+async def test_get_turnos_filtro_bar_inexistente_retorna_422(client, auth_headers):
+    response = await client.get(
+        "/api/v1/turnos", params={"bar": "bar_fantasma"}, headers=auth_headers
+    )
+
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
+    assert response.json()["detail"]["message"] == "Bar 'bar_fantasma' não existe."
+
+
 async def test_get_turnos_sem_token_retorna_401(client):
     response = await client.get("/api/v1/turnos")
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -212,6 +272,7 @@ async def test_get_turnos_filtros_e_paginacao(client, auth_headers):
         ("2025-02-01", "piscina"),
         ("2025-02-02", "piscina"),
         ("2025-02-02", "sport_bar"),
+        ("2025-02-02", "beach_club"),
     ]:
         payload = _montar_payload(date=date, bar=bar)
         resposta = await client.post("/api/v1/turnos", json=payload, headers=auth_headers)
@@ -229,15 +290,15 @@ async def test_get_turnos_filtros_e_paginacao(client, auth_headers):
         "/api/v1/turnos", params={"date": "2025-02-02"}, headers=auth_headers
     )
     corpo_data = filtrado_por_data.json()
-    assert corpo_data["total"] == 2
+    assert corpo_data["total"] == 3
     assert all(item["date"] == "2025-02-02" for item in corpo_data["items"])
 
     paginado = await client.get(
-        "/api/v1/turnos", params={"page": 1, "page_size": 2}, headers=auth_headers
+        "/api/v1/turnos", params={"page": 1, "page_size": 3}, headers=auth_headers
     )
     corpo_paginado = paginado.json()
-    assert corpo_paginado["total"] == 3
+    assert corpo_paginado["total"] == 4
     assert corpo_paginado["page"] == 1
-    assert corpo_paginado["page_size"] == 2
+    assert corpo_paginado["page_size"] == 3
     assert corpo_paginado["pages"] == 2
-    assert len(corpo_paginado["items"]) == 2
+    assert len(corpo_paginado["items"]) == 3

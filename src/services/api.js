@@ -155,6 +155,10 @@ export function login(nome, pin) {
   return request("/api/v1/auth/login", { method: "POST", body: { nome, pin } });
 }
 
+export function fetchBares(token) {
+  return request("/api/v1/bares", { token });
+}
+
 export function submitTurnoPayload(payload, token) {
   return request("/api/v1/turnos", { method: "POST", body: payload, token });
 }
