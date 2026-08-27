@@ -3,6 +3,7 @@ import { SECTIONS } from "./data/checklistData.js";
 import { useLocalStorage, clearLocalStorageKeys } from "./hooks/useLocalStorage.js";
 import { useBarMetrics } from "./hooks/useBarMetrics.js";
 import { useAuth } from "./hooks/useAuth.js";
+import { useBars } from "./hooks/useBars.js";
 import { useOfflineQueue } from "./hooks/useOfflineQueue.js";
 import Login from "./components/Login/Login.jsx";
 import Header from "./components/Header/Header.jsx";
@@ -35,6 +36,7 @@ export default function App() {
   const [open, setOpen] = useLocalStorage("open", defaultOpenSections());
 
   const metrics = useBarMetrics(checked, scores);
+  const bars = useBars(auth?.token);
   const { pendingCount, enqueue } = useOfflineQueue();
 
   const toggleItem = (id) => setChecked((p) => ({ ...p, [id]: !p[id] }));
@@ -56,7 +58,7 @@ export default function App() {
       <Header
         date={date} onDateChange={setDate}
         emocionador={auth.nome} onLogout={logout}
-        bar={bar} onBarChange={setBar}
+        bar={bar} onBarChange={setBar} bars={bars}
         status={metrics.status}
       />
 

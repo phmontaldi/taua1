@@ -5,11 +5,11 @@ from decimal import Decimal
 
 from sqlalchemy import (
     Boolean,
-    CheckConstraint,
     Date,
     DateTime,
     ForeignKey,
     Index,
+    Integer,
     Numeric,
     SmallInteger,
     String,
@@ -22,10 +22,23 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
 
 
+class Bar(Base):
+    __tablename__ = "bar"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    slug: Mapped[str] = mapped_column(String(15), nullable=False, unique=True)
+    rotulo: Mapped[str] = mapped_column(String(60), nullable=False)
+    ativo: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True, server_default=text("TRUE")
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=text("NOW()")
+    )
+
+
 class Turno(Base):
     __tablename__ = "turno"
     __table_args__ = (
-        CheckConstraint("bar IN ('piscina', 'sport_bar')", name="turno_bar_check"),
         UniqueConstraint("date", "bar", name="turno_date_bar_key"),
         Index("idx_turno_date", "date"),
         Index("idx_turno_bar", "bar"),
@@ -36,7 +49,9 @@ class Turno(Base):
         UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
     )
     date: Mapped[date_] = mapped_column(Date, nullable=False)
-    bar: Mapped[str] = mapped_column(String(15), nullable=False)
+    bar: Mapped[str] = mapped_column(
+        String(15), ForeignKey("bar.slug", name="turno_bar_fkey"), nullable=False
+    )
     emocionador: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(50), nullable=False)
     submitted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

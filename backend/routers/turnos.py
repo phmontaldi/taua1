@@ -1,6 +1,5 @@
 import math
 from datetime import date as date_
-from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import JSONResponse
@@ -9,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from auth import LiderAtual, get_current_lider
 from database import get_db
 from models import TurnoCreate, TurnoListResponse, TurnoResponse
+from services.bar_service import validar_bar
 from services.scoring import (
     comparar_auditoria,
     comparar_checklist,
@@ -27,6 +27,8 @@ async def criar_turno_endpoint(
     lider: LiderAtual = Depends(get_current_lider),
 ):
     payload = payload.model_copy(update={"emocionador": lider.nome})
+
+    await validar_bar(db, payload.bar)
 
     checklist_metrics = compute_checklist_metrics(payload.checklist)
     auditoria_metrics = compute_auditoria_metrics(payload.auditoria)
@@ -62,11 +64,15 @@ async def criar_turno_endpoint(
 @router.get("", response_model=TurnoListResponse)
 async def listar_turnos_endpoint(
     date: date_ | None = None,
-    bar: Literal["piscina", "sport_bar"] | None = None,
+    bar: str | None = None,
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
 ):
+    if bar is not None:
+        # Bares inativos seguem consultáveis: o histórico continua acessível.
+        await validar_bar(db, bar, exigir_ativo=False)
+
     turnos, total = await listar_turnos(db, date=date, bar=bar, page=page, page_size=page_size)
     pages = math.ceil(total / page_size) if total else 0
 

@@ -14,7 +14,7 @@ from sqlalchemy import delete
 from auth import JWT_ALGORITHM
 from config import settings
 from database import AsyncSessionLocal
-from db_models import Lider, Turno
+from db_models import Bar, Lider, Turno
 from main import app
 from rate_limit import limiter
 
@@ -45,6 +45,22 @@ async def lider_teste():
 
     async with AsyncSessionLocal() as db:
         await db.execute(delete(Lider).where(Lider.id == lider.id))
+        await db.commit()
+
+
+@pytest_asyncio.fixture
+async def bar_inativo():
+    async with AsyncSessionLocal() as db:
+        bar = Bar(slug="bar_inativo", rotulo="Bar Inativo (teste)", ativo=False)
+        db.add(bar)
+        await db.commit()
+        await db.refresh(bar)
+
+    yield bar
+
+    async with AsyncSessionLocal() as db:
+        await db.execute(delete(Turno).where(Turno.bar == bar.slug))
+        await db.execute(delete(Bar).where(Bar.id == bar.id))
         await db.commit()
 
 
